@@ -1,4 +1,36 @@
 <?php
+// if (isset($_POST['login'])) {
+//     include './partials/_dbconnect.php';
+//     $username = $_POST['username'];
+//     $password = $_POST['password'];
+//     echo $username;
+//     echo "<br/>";
+//     echo $password;
+
+//     if ($username != ""  && $password != "") {
+
+//         $sql = "SELECT * FROM  users WHERE  username = '$username'";
+//         $result = mysqli_query($conn, $sql);
+
+//         $num = mysqli_num_rows($result);
+//         echo "hii";
+//         if (($num > 0 ) == true) {
+//             $row = mysqli_fetch_assoc($result);
+//             echo "<hello>";
+//             $pass = $row['password'];
+//             if (password_verify($password, $row['password'])) {
+//                 echo "connection successfull";
+//             }
+//         } else {
+//             echo "user not found";
+//         }
+//     } else {
+//         echo "please fil all  fileds ";
+//     }
+// }
+
+?>
+<?php
 
 if (isset($_POST['login'])) {
     include 'partials/_dbconnect.php';
@@ -24,7 +56,7 @@ if (isset($_POST['login'])) {
 
 <!-- Modal -->
 <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog">x
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5 " id="loginModalLabel">Log in </h1>

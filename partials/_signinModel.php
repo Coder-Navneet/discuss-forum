@@ -1,10 +1,11 @@
 <?php
 if (isset($_POST['signup'])) {
-
-  include 'partials/_dbconnect.php';
+  $signup_Confirm = "false";
+  include __DIR__ . '/_dbconnect.php';
   $username = $_POST['username'];
   $email = $_POST['email'];
   $password = $_POST['password'];
+  $hash = password_hash($password,PASSWORD_DEFAULT);
   $cpassword = $_POST['cpassword'];
   $image = $_FILES['image']['name'];
   $temp_image = $_FILES['image']['tmp_name'];
@@ -15,28 +16,31 @@ if (isset($_POST['signup'])) {
       $sql = "SELECT * FROM users ";
       $result_sql = mysqli_query($conn, $sql);
       $row = mysqli_fetch_assoc($result_sql);
-      if ($username !== $row['username']) {
+      if ($username != $row['username'] && $email != $row['email']) {
 
         move_uploaded_file($temp_image, "images/user_images/$image");
-        $insert = "INSERT INTO users (username ,email ,	password,image ) VALUES ('$username' ,'$email' , '$password','$image')";
+        $insert = "INSERT INTO users (username ,email ,	password,image ) VALUES ('$username' ,'$email' , '$hash','$image')";
         $result = mysqli_query($conn, $insert);
         if ($result) {
-          echo "<script>alert('ragistration successfully .')</script>";
+
+          $signup_Confirm = "true";
+          header("location:index.php?signup_Confirm=true");
         }
       } else {
-        echo "<script>alert('username already eixed please try another username .')</script>";
+        $signup_success = "false";
+        header("location:index.php?signup_success=false");
       }
     } else {
-      echo "<script>alert('please fill all the fildes .')</script>";
+      $showAlert = "true";
+      header("location:index.php?showAlert=true");
     }
   } else {
-    echo "<script>alert('password does not match ')</script>";
+    $showError = "true";
+    header("location:index.php?showError=true");
   }
 }
 
 ?>
-
-
 
 <!-- Modal -->
 <div class="modal fade" id="signinModel" tabindex="-1" aria-labelledby="signinModelLabel" aria-hidden="true">

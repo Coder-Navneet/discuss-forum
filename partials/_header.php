@@ -46,6 +46,8 @@ session_start();
             echo   '   <button class="btn btn-outline-primary me-3" data-bs-toggle="modal" data-bs-target="#loginModal">log in</button>
             <button class="btn btn-outline-success me-3" data-bs-toggle="modal" data-bs-target="#signinModel">sign in</button> ';
           } else {
+            $username = $_SESSION['username'];
+            echo htmlspecialchars($username, ENT_QUOTES, 'UTF-8');
             echo '  <a href="partials/_logout.php" class=" btn btn-outline-primary">log out </a> ';
           } ?>
         </div>

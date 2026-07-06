@@ -25,7 +25,7 @@ include 'partials/_dbconnect.php';
         <?php
         $category_id = $_GET['category_id'];
 
-        $sql  = "SELECT *  FROM category WHERE category_id  = $category_id";
+        $sql  = "SELECT *  FROM categories WHERE category_id  = $category_id";
         $result = mysqli_query($conn, $sql);
         while ($row = mysqli_fetch_assoc($result)) {
             $category_name = $row['category_name'];
@@ -95,6 +95,9 @@ include 'partials/_dbconnect.php';
             $thread_id = $threads_row['thread_id'];
             $thread_title = $threads_row['thread_title'];
             $thread_desc = $threads_row['thread_desc'];
+            $thread_time = $threads_row['timestamp'];
+            $date = date_create($thread_time);
+
 
         ?>
             <div class="d-flex my-3">
@@ -102,6 +105,8 @@ include 'partials/_dbconnect.php';
                     <img src="images/user-profile.avif" alt="..." style="width: 50px;">
                 </div>
                 <div class="flex-grow-1 ms-3">
+                                        <h6><?php echo "Navneet at ". date_format($date, 'Y/m/d ')." "; ?></h6>
+
                     <h4><a href="thread.php?thread_id=<?php echo $thread_id; ?> " class="text-decoration-none"><?php echo $thread_title; ?></a></h4>
                     <p><?php echo $thread_desc; ?></p>
                 </div>

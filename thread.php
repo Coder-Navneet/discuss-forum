@@ -52,29 +52,67 @@ include 'partials/_dbconnect.php';
 ?>
 <div class="container my-5 " id="ques">
     <div class="mx-auto w-75">
+        <div>
+            <?php
+            $thread_id = $_GET['thread_id'];
+            if (isset($_POST['commentSubmit'])) {
+                $comment = $_POST['comment_content'];
+
+                $ques = "INSERT INTO comments (comment_content, 	thread_id , comment_by) VALUES ('$comment','$thread_id', '0')";
+                $ques_result = mysqli_query($conn, $ques);
+                if ($ques_result) {
+                    echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong>Success !</strong> Your Question submited  .
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>';
+                }
+            }
+            ?>
+            <form action="" method="post">
+
+                <h1>Post a Comment</h1>
+                <div class="mb-3">
+                    <label for="comment_content" class="form-label">type your comment</label>
+                    <textarea class="form-control" name="comment_content" id="comment_content" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" name="commentSubmit">Submit</button>
+            </form>
+        </div>
         <h1>Browse Questions</h1>
 
 
-        <div class="d-flex my-3">
-            <div class="flex-shrink-0">
-                <img src="images/user-profile.avif" alt="..." style="width: 50px;">
-            </div>
-            <div class="flex-grow-1 ms-3">
-                <h4><a href="thread.php?thread_id=" class="text-decoration-none"></a></h4>
-                <p></p>
-            </div>
-        </div>
+        <?php
+        $comment_show  = "SELECT *  FROM comments WHERE 	thread_id   = $thread_id";
+        $comment_result = mysqli_query($conn, $comment_show);
+        $noresult = true;
+        while ($threads_row = mysqli_fetch_assoc($comment_result)) {
+            $noresult = false;
+            $comment = $threads_row['comment_content'];
+            $comment_time = $threads_row['comment_time'];
+            $date = date_create($comment_time);
 
-        <!-- <div class="d-flex my-3">
+
+
+        ?>
+            <div class="d-flex my-3">
                 <div class="flex-shrink-0">
                     <img src="images/user-profile.avif" alt="..." style="width: 50px;">
                 </div>
                 <div class="flex-grow-1 ms-3">
-                    <h4>Lorem ipsum dolor sit, amet consectetur !</h4>
-                    This is some content from a media component. You can replace this with any content and adjust it as needed.
+                    <h5><?php echo "Navneet at ". date_format($date, 'Y/m/d ')." "; ?></h5>
+                    <p><?php echo $comment; ?></p>
                 </div>
-            </div> -->
+            </div>
 
+        <?php    }
+
+        if ($noresult) {
+            echo '<div class="alert alert-primary" role="alert">
+
+  <h3>No thread found</h3>
+  <p>Be the first person to ask a question</p>
+</div>';
+        } ?>
 
     </div>
 </div>

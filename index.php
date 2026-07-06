@@ -1,5 +1,6 @@
 <?php
 include "partials/_dbconnect.php";
+
 ?>
 
 <!doctype html>
@@ -19,7 +20,53 @@ include "partials/_dbconnect.php";
 </head>
 
 <body>
-    <?php include 'partials/_header.php'; ?>
+    <?php include 'partials/_header.php';
+
+    if (isset($_GET['signup_Confirm']) == "true") {
+        echo '<div class="alert alert-success m-0 alert-dismissible fade show" role="alert">
+  <strong>registration successful </strong> now you can log in
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>';
+    }
+    
+     if (isset($_GET['signup_success']) == "false") {
+        echo '<div class="alert alert-danger m-0 alert-dismissible fade show" role="alert">
+  <strong>username already exists </strong> please try another username
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>';
+    }
+
+
+    if (isset($_GET['showAlert']) == "true") {
+        echo '<div class="alert alert-danger m-0 alert-dismissible fade show" role="alert">
+   please fill all the fields <strong>!</strong>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>';
+    }
+
+    if (isset($_GET['showError']) == "true") {
+        echo '<div class="alert alert-danger m-0 alert-dismissible fade show" role="alert">
+    password does not match <strong>!</strong>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>';
+    }
+
+    if (isset($_GET['login_success']) == "true") {
+        echo '<div class="alert alert-success m-0 alert-dismissible fade show" role="alert">
+   <strong></strong> login successfully 
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>';
+    } else if (isset($_GET['loginError']) == "true") {
+        echo '<div class="alert alert-danger m-0 alert-dismissible fade show" role="alert">
+   <strong>!</strong> Invalid cartaintiol 
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>';
+    }
+
+
+
+
+    ?>
 
     <div id="carouselExampleIndicators" class="carousel slide">
         <div class="carousel-indicators">
@@ -55,7 +102,7 @@ include "partials/_dbconnect.php";
             <!-- fetch all the category  -->
             <?php
 
-            $sql  = "SELECT *  FROM category";
+            $sql  = "SELECT *  FROM categories";
             $result = mysqli_query($conn, $sql);
 
             while ($row = mysqli_fetch_assoc($result)) {
@@ -70,9 +117,9 @@ include "partials/_dbconnect.php";
                 <div class="card" style="width: 18rem;">
                     <img src="images/hero_image.jpg" class="card-img-top" alt="...">
                     <div class="card-body">
-                        <h5 class="card-title"> <a href="threadslist.php?category_id='.$category_id.'"  class= "text-decoration-none">' . $category_name . '</a></h5>
-                        <p class="card-text">' . substr($category_description,0 , 90) . '...</p>
-                        <a href="threadslist.php?category_id='.$category_id.'" class="btn btn-primary">View Treads</a>
+                        <h5 class="card-title"> <a href="threadslist.php?category_id=' . $category_id . '"  class= "text-decoration-none">' . $category_name . '</a></h5>
+                        <p class="card-text">' . substr($category_description, 0, 90) . '...</p>
+                        <a href="threadslist.php?category_id=' . $category_id . '" class="btn btn-primary">View Treads</a>
                     </div>
                 </div>
             </div>
@@ -83,7 +130,7 @@ include "partials/_dbconnect.php";
             ?>
 
 
-        </div >
+        </div>
     </div>
     <?php include 'partials/_footer.php' ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
