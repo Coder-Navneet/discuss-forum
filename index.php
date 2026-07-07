@@ -29,7 +29,7 @@ include "partials/_dbconnect.php";
 </div>';
     }
     
-     if (isset($_GET['signup_success']) == "false") {
+     else if (isset($_GET['signup_success']) == "false") {
         echo '<div class="alert alert-danger m-0 alert-dismissible fade show" role="alert">
   <strong>username already exists </strong> please try another username
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -37,28 +37,30 @@ include "partials/_dbconnect.php";
     }
 
 
-    if (isset($_GET['showAlert']) == "true") {
+  else  if (isset($_GET['showAlert']) == "true") {
         echo '<div class="alert alert-danger m-0 alert-dismissible fade show" role="alert">
    please fill all the fields <strong>!</strong>
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>';
     }
 
-    if (isset($_GET['showError']) == "true") {
+ else   if (isset($_GET['matchPassword']) == "true") {
         echo '<div class="alert alert-danger m-0 alert-dismissible fade show" role="alert">
-    password does not match <strong>!</strong>
+    password  not match <strong></strong>
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>';
     }
 
-    if (isset($_GET['login_success']) == "true") {
+   else if (isset($_GET['login_success']) == "true") {
         echo '<div class="alert alert-success m-0 alert-dismissible fade show" role="alert">
    <strong></strong> login successfully 
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>';
-    } else if (isset($_GET['loginError']) == "true") {
+    } 
+    
+   else  if (isset($_GET['user_not_found']) == "false") {
         echo '<div class="alert alert-danger m-0 alert-dismissible fade show" role="alert">
-   <strong>!</strong> Invalid cartaintiol 
+   <strong></strong> Invalid cartaintiol 
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>';
     }

@@ -1,56 +1,43 @@
 <?php
-// if (isset($_POST['login'])) {
-//     include './partials/_dbconnect.php';
-//     $username = $_POST['username'];
-//     $password = $_POST['password'];
-//     echo $username;
-//     echo "<br/>";
-//     echo $password;
-
-//     if ($username != ""  && $password != "") {
-
-//         $sql = "SELECT * FROM  users WHERE  username = '$username'";
-//         $result = mysqli_query($conn, $sql);
-
-//         $num = mysqli_num_rows($result);
-//         echo "hii";
-//         if (($num > 0 ) == true) {
-//             $row = mysqli_fetch_assoc($result);
-//             echo "<hello>";
-//             $pass = $row['password'];
-//             if (password_verify($password, $row['password'])) {
-//                 echo "connection successfull";
-//             }
-//         } else {
-//             echo "user not found";
-//         }
-//     } else {
-//         echo "please fil all  fileds ";
-//     }
-// }
-
-?>
-<?php
-
 if (isset($_POST['login'])) {
-    include 'partials/_dbconnect.php';
+                    $login_success = 'false';
 
+    include './partials/_dbconnect.php';
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    $sql = "SELECT * FROM `users` WHERE username = '$username' AND password = '$password' ";
-    $result = mysqli_query($conn, $sql);
 
-    if ($result) {
-        $_SESSION['username'] = $username;
-        echo "<script>alert('login successfully .')</script>";
-        echo "<script>window.open('index.php','_self')</script>";
-    } else {
-        echo "<script>alert('Invalid cartaintiol .')</script>";
+    if ($username != "" && $password != "") {
+
+        $sql = "SELECT * FROM  users WHERE  username = '$username'";
+        $result = mysqli_query($conn, $sql);
+        $num = mysqli_num_rows($result);
+        if (($num > 0) == true) {
+            $row = mysqli_fetch_assoc($result);
+            $pass = $row['password'];
+            if (password_verify($password, $row['password'])) {
+                // echo "connection successfull";
+                session_start();
+                $_SESSION['username']  = $username ;
+                $_SESSION['username']  = $username ;
+                $login_success = 'true';
+                header('location:index.php?login_success=true');
+            }else{
+                $matchPassword = 'true';
+                header('location:index.php?matchPassword=true');
+                }
+                } else {
+                    $user_not_found = 'true' ;
+                    header('location:index.php?user_not_found=true');
+                    }
+                    } else {
+        $showAlert = 'true' ;
+        header('location:index.php?showAlert=true');
     }
 }
 
 ?>
+
 
 
 

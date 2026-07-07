@@ -5,7 +5,7 @@ if (isset($_POST['signup'])) {
   $username = $_POST['username'];
   $email = $_POST['email'];
   $password = $_POST['password'];
-  $hash = password_hash($password,PASSWORD_DEFAULT);
+  $hash = password_hash($password, PASSWORD_DEFAULT);
   $cpassword = $_POST['cpassword'];
   $image = $_FILES['image']['name'];
   $temp_image = $_FILES['image']['tmp_name'];
@@ -35,8 +35,8 @@ if (isset($_POST['signup'])) {
       header("location:index.php?showAlert=true");
     }
   } else {
-    $showError = "true";
-    header("location:index.php?showError=true");
+    $matchPassword = "true";
+    header("location:index.php?matchPassword=true");
   }
 }
 
