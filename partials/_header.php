@@ -1,7 +1,6 @@
 <?php
 
 session_start();
-include '_dbconnect.php';
 
 ?>
 <header>
@@ -28,6 +27,7 @@ include '_dbconnect.php';
 
             <ul class="dropdown-menu">
               <?php
+
               $sql = "SELECT * FROM categories";
               $result = mysqli_query($conn, $sql);
 

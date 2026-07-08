@@ -9,7 +9,10 @@
 </head>
 
 <body>
-  <?php include 'partials/_header.php'; ?>
+  <?php
+  include "partials/_dbconnect.php";
+
+  include 'partials/_header.php'; ?>
   <h1>Hello, world!</h1>
 
 

@@ -30,7 +30,7 @@ include 'partials/_dbconnect.php';
         while ($row = mysqli_fetch_assoc($result)) {
             $category_name = $row['category_name'];
             $category_description = $row['category_description'];
-            ?>
+        ?>
             <div class="p-5 mb-4 bg-body-secondary rounded-3  mx-auto w-75">
                 <div class="container-fulid">
                     <h1 class="display-5 fw-bold"><?php echo $category_name; ?></h1>
@@ -45,106 +45,114 @@ include 'partials/_dbconnect.php';
                     <button class="btn btn-success btn-lg mt-3" type="button">Learn More</button>
                 </div>
             </div>
-        </div>
-        <?php
+    </div>
+<?php
         }
-        ?>
+?>
 
-    <div class="container my-5 " id="ques">
-        <div class="mx-auto w-75">
+<div class="container my-5 " id="ques">
+    <div class="mx-auto w-75">
 
-            <!-- discuss  form  -->
-            <div>
-                <h1>Start Discussions</h1>
-                <?php
+        <!-- discuss  form  -->
+        <div>
+            <h1>Start Discussions</h1>
+            <?php
+            if (isset($_SESSION['username'])) {
+                if (isset($_POST['ques'])) {
+                    $thread_title = $_POST['thread_title'];
+                    $thread_title = str_replace(">", "&gt", $thread_title);
+                    $thread_title = str_replace("<", "&lt", $thread_title);
+                    
+                    $desc = $_POST['desc'];
+                    $desc = str_replace(">", "&gt", $desc);
+                    $desc = str_replace("<", "&lt", $desc);
+                    $user_id = $_SESSION['user_id'];
 
-                    if (isset($_POST['ques'])) {
-                        $thread_title = $_POST['thread_title'];
-                        $desc = $_POST['desc'];
-                        
 
-                        if ($thread_title = "" && $desc = "") {
-                            $ques = "INSERT INTO threads (thread_title, thread_desc ,thread_user_id,thread_category_id) VALUES ('$thread_title','$desc', '0' , '$category_id' )";
-                            $ques_result = mysqli_query($conn, $ques);
-                            if ($ques_result) {
-                                echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                    if ($thread_title != "" && $desc != "") {
+                        $ques = "INSERT INTO threads (thread_title, thread_desc ,thread_user_id,thread_category_id) VALUES ('$thread_title','$desc', '$user_id' , '$category_id' )";
+                        $ques_result = mysqli_query($conn, $ques);
+                        if ($ques_result) {
+                            echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
                                 <strong>Success !</strong> Your Question submited  .
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>';
-                            }
-                     
+                        }
                     }
-
-                    ?>
-                    <form action="" method="post">
-                        <div class="mb-3">
-                            <label for="thread_title" class="form-label">Problem Title </label>
-                            <input type="text" class="form-control" name="thread_title" id="thread_title">
-                            <div id="emailHelp" class="form-text">keep yout title as short and crisp as possible.</div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="desc" class="form-label">Description</label>
-                            <textarea class="form-control" name="desc" id="desc" rows="3"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary" name="ques">Submit</button>
-                    </form>
-                    <?php
-                } else {
-                    echo "<p class='display-6 fs-2'>you are not logged in please login to be able to start a Discussion </p>";
-
                 }
-                ?>
-            </div>
 
-
-            <!-- Browse Questions Section  -->
-
-            <h1>Browse Questions</h1>
-
+            ?>
+                <form action="" method="post">
+                    <div class="mb-3">
+                        <label for="thread_title" class="form-label">Problem Title </label>
+                        <input type="text" class="form-control" name="thread_title" id="thread_title">
+                        <div id="emailHelp" class="form-text">keep yout title as short and crisp as possible.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="desc" class="form-label">Description</label>
+                        <textarea class="form-control" name="desc" id="desc" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" name="ques">Submit</button>
+                </form>
             <?php
+            } else {
+                echo "<p class='display-6 fs-2'>you are not logged in please login to be able to start a Discussion </p>";
+            }
+            ?>
+        </div>
 
-            $threds_sql = "SELECT *  FROM threads WHERE 	thread_category_id  = $category_id";
-            $threads_result = mysqli_query($conn, $threds_sql);
-            $noresult = true;
-            while ($threads_row = mysqli_fetch_assoc($threads_result)) {
-                $noresult = false;
-                $thread_id = $threads_row['thread_id'];
-                $thread_title = $threads_row['thread_title'];
-                $thread_desc = $threads_row['thread_desc'];
-                $user_id = $threads_row['thread_user_id'];
-                $thread_time = $threads_row['timestamp'];
-                $date = date_create($thread_time);
 
-                $user_query = "SELECT * FROM users WHERE user_id = '$user_id' ";
-                $user_result = mysqli_query($conn, $user_query);
-                $user_row = mysqli_fetch_assoc($user_result);
-                $user_name = $user_row['username'];
+        <!-- Browse Questions Section  -->
 
-                ?>
+        <h1>Browse Questions</h1>
+
+        <?php
+
+        $threds_sql = "SELECT *  FROM threads WHERE 	thread_category_id  = $category_id";
+        $threads_result = mysqli_query($conn, $threds_sql);
+        $noresult = true;
+        while ($threads_row = mysqli_fetch_assoc($threads_result)) {
+            $noresult = false;
+            $thread_id = $threads_row['thread_id'];
+            $thread_title = $threads_row['thread_title'];
+            $thread_desc = $threads_row['thread_desc'];
+            $user_id = $threads_row['thread_user_id'];
+            $thread_time = $threads_row['timestamp'];
+            $date = date_create($thread_time);
+
+            $user_query = "SELECT * FROM users WHERE user_id = '$user_id' ";
+            $user_result = mysqli_query($conn, $user_query);
+            $user_row = mysqli_fetch_assoc($user_result);
+            $user_name = $user_row['username'];
+
+        ?>
+            <div>
                 <div class="d-flex my-3">
                     <div class="flex-shrink-0">
                         <img src="images/user-profile.avif" alt="..." style="width: 50px;">
                     </div>
-                    <div class="flex-grow-1 ms-3">
-                        <h6><?php echo "$user_name at " . date_format($date, 'Y/m/d ') . " "; ?></h6>
+                    <div class="flex-grow-1 ms-3 ">
 
                         <h4><a href="thread.php?thread_id=<?php echo $thread_id; ?> "
                                 class="text-decoration-none"><?php echo $thread_title; ?></a></h4>
-                        <p><?php echo $thread_desc; ?></p>
+                        <p class="my-0"> <?php echo $thread_desc; ?></p>
                     </div>
                 </div>
+                <div class=" ">
+                    <h6 class="text-end my-0">Asked by - <?php echo "$user_name at " . date_format($date, 'Y/m/d ') . " "; ?></h6>
+                </div>
+            </div>
+        <?php }
 
-            <?php }
-
-            if ($noresult) {
-                echo '<div class="alert alert-primary" role="alert">
+        if ($noresult) {
+            echo '<div class="alert alert-primary" role="alert">
 
   <h3>No thread found</h3>
   <p>Be the first person to ask a question</p>
 </div>';
-            } ?>
+        } ?>
 
-            <!-- <div class="d-flex my-3">
+        <!-- <div class="d-flex my-3">
                 <div class="flex-shrink-0">
                     <img src="images/user-profile.avif" alt="..." style="width: 50px;">
                 </div>
@@ -155,14 +163,14 @@ include 'partials/_dbconnect.php';
             </div> -->
 
 
-        </div>
     </div>
+</div>
 
-    <?php include 'partials/_footer.php'; ?>
+<?php include 'partials/_footer.php'; ?>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
 </body>
 
 </html>

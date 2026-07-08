@@ -15,11 +15,12 @@ if (isset($_POST['login'])) {
         if (($num > 0) == true) {
             $row = mysqli_fetch_assoc($result);
             $pass = $row['password'];
+            $user_id = $row['user_id'];
             if (password_verify($password, $row['password'])) {
                 // echo "connection successfull";
                 session_start();
                 $_SESSION['username']  = $username ;
-                $_SESSION['username']  = $username ;
+                $_SESSION['user_id']  = $user_id ;
                 $login_success = 'true';
                 header('location:index.php?login_success=true');
             }else{
